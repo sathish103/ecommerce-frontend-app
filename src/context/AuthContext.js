@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { Auth } from 'aws-amplify/auth';
+import { Auth } from '@aws-amplify/auth';
 import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
