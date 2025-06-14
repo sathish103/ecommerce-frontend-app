@@ -1,5 +1,12 @@
+// src/context/AuthContext.js
 import React, { createContext, useState, useEffect } from 'react';
-import { Auth } from 'aws-amplify';
+import {
+  signIn,
+  signUp,
+  signOut,
+  getCurrentUser,
+  fetchAuthSession,
+} from 'aws-amplify/auth';
 import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
@@ -10,9 +17,9 @@ export const AuthProvider = ({ children }) => {
 
   const checkUser = async () => {
     try {
-      const currentUser = await Auth.currentAuthenticatedUser();
+      const currentUser = await getCurrentUser();
       setUser(currentUser);
-    } catch {
+    } catch (err) {
       setUser(null);
     }
   };
@@ -22,23 +29,42 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const user = await Auth.signIn(email, password);
-    setUser(user);
-    navigate('/');
+    try {
+      const response = await signIn({ username: email, password });
+      if (response.isSignedIn) {
+        const currentUser = await getCurrentUser();
+        setUser(currentUser);
+        navigate('/');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    }
   };
 
   const register = async (email, password) => {
-    await Auth.signUp({
-      username: email,
-      password,
-      attributes: { email }
-    });
+    try {
+      await signUp({
+        username: email,
+        password,
+        options: {
+          userAttributes: {
+            email,
+          },
+        },
+      });
+    } catch (error) {
+      console.error('Signup error:', error);
+    }
   };
 
   const logout = async () => {
-    await Auth.signOut();
-    setUser(null);
-    navigate('/login');
+    try {
+      await signOut();
+      setUser(null);
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
   return (
