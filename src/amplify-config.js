@@ -3,8 +3,11 @@ import { Amplify } from 'aws-amplify';
 
 Amplify.configure({
   Auth: {
-    region: 'ap-south-1', // ✅ update with your region
-    userPoolId: 'ap-south-1_XXXXXXX', // ✅ update with your user pool ID
-    userPoolClientId: 'XXXXXXXXXXXXXXXXXXXX', // ✅ update with your app client ID
-  },
+    Cognito: {
+      region: process.env.REACT_APP_COGNITO_REGION,
+      userPoolId: process.env.REACT_APP_COGNITO_USER_POOL_ID,
+      userPoolClientId: process.env.REACT_APP_COGNITO_APP_CLIENT_ID,
+      // Only if you're NOT using OAuth, you can omit loginWith here
+    }
+  }
 });
