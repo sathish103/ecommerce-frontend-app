@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 // Layout components
 import Header from './components/layout/Header';
@@ -26,13 +26,12 @@ import AdminProducts from './pages/Admin/Products';
 import Inventory from './pages/Admin/Inventory';
 import Discounts from './pages/Admin/Discounts';
 
-// Route protection
 import PrivateRoutes from './routes/PrivateRoutes';
 import AdminRoutes from './routes/AdminRoutes';
 
 const App = () => {
   return (
-    <Router>
+    <>
       <Header />
 
       <main style={{ minHeight: '80vh' }}>
@@ -68,7 +67,7 @@ const App = () => {
       </main>
 
       <Footer />
-    </Router>
+    </>
   );
 };
 
