@@ -2,24 +2,26 @@
 
 import axios from "../axiosInstance";
 
-// Get inventory info for a specific product
-export const getInventoryByProductId = async (productId) => {
-  try {
-    const response = await axios.get(`/inventory/${productId}`);
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to fetch inventory details");
-  }
+const inventoryService = {
+  getInventoryByProductId: async (productId) => {
+    try {
+      const response = await axios.get(`/inventory/${productId}`);
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to fetch inventory details");
+    }
+  },
+
+  updateInventory: async (productId, quantity) => {
+    try {
+      const response = await axios.put(`/inventory/${productId}`, {
+        quantity,
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to update inventory");
+    }
+  },
 };
 
-// Update inventory after order placed (optional, if handled on frontend)
-export const updateInventory = async (productId, quantity) => {
-  try {
-    const response = await axios.put(`/inventory/${productId}`, {
-      quantity,
-    });
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to update inventory");
-  }
-};
+export default inventoryService;

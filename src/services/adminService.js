@@ -2,32 +2,31 @@
 
 import axios from "../axiosInstance";
 
-// Login API call
-export const loginUser = async (email, password) => {
-  try {
-    const response = await axios.post("/users/login", {
-      email,
-      password,
-    });
+const adminService = {
+  register: async ({ email, password, name }) => {
+    try {
+      const response = await axios.post("/users/register", {
+        email,
+        password,
+        name,
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error("Registration failed");
+    }
+  },
 
-    // Assuming backend returns a JWT and user info
-    return response.data; // { token, user }
-  } catch (error) {
-    throw new Error(error.response?.data?.message || "Login failed");
-  }
+  login: async ({ email, password }) => {
+    try {
+      const response = await axios.post("/users/login", {
+        email,
+        password,
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error("Login failed");
+    }
+  },
 };
 
-// Register API (optional)
-export const registerUser = async (name, email, password) => {
-  try {
-    const response = await axios.post("/users/register", {
-      name,
-      email,
-      password,
-    });
-
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response?.data?.message || "Registration failed");
-  }
-};
+export default adminService;
