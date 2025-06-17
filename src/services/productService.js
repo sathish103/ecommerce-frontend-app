@@ -1,8 +1,23 @@
-import axios from '../axiosInstance';
-import { PRODUCT_API } from '../config';
+// src/services/productService.js
 
-export const getAllProducts = () => axios.get(`${PRODUCT_API}/products`);
-export const getProductById = (id) => axios.get(`${PRODUCT_API}/products/${id}`);
-export const addProduct = (data) => axios.post(`${PRODUCT_API}/products`, data);
-export const updateProduct = (id, data) => axios.put(`${PRODUCT_API}/products/${id}`, data);
-export const deleteProduct = (id) => axios.delete(`${PRODUCT_API}/products/${id}`);
+import axios from "../axiosInstance";
+
+// Get all products
+export const fetchAllProducts = async () => {
+  try {
+    const response = await axios.get("/products");
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch products");
+  }
+};
+
+// Get a single product by ID
+export const fetchProductById = async (productId) => {
+  try {
+    const response = await axios.get(`/products/${productId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch product details");
+  }
+};

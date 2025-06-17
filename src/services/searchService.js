@@ -1,4 +1,13 @@
-import axios from '../axiosInstance';
-import { SEARCH_API } from '../config';
+// src/services/searchService.js
 
-export const searchProducts = (query) => axios.get(`${SEARCH_API}/search?q=${query}`);
+import axios from "../axiosInstance";
+
+// Search products by keyword
+export const searchProducts = async (query) => {
+  try {
+    const response = await axios.get(`/search?keyword=${encodeURIComponent(query)}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to search products");
+  }
+};

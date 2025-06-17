@@ -1,7 +1,48 @@
-import axios from '../axiosInstance';
-import { CART_API } from '../config';
+// src/services/cartService.js
 
-export const getCart = () => axios.get(`${CART_API}/cart`);
-export const addToCart = (item) => axios.post(`${CART_API}/cart/add`, item);
-export const removeFromCart = (productId) => axios.delete(`${CART_API}/cart/remove/${productId}`);
-export const clearCart = () => axios.post(`${CART_API}/cart/clear`);
+import axios from "../axiosInstance";
+
+// Get cart for a user
+export const getCart = async (userId) => {
+  try {
+    const response = await axios.get(`/cart/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch cart");
+  }
+};
+
+// Add item to cart
+export const addToCart = async (userId, productId, quantity) => {
+  try {
+    const response = await axios.post(`/cart/${userId}/items`, {
+      productId,
+      quantity,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to add item to cart");
+  }
+};
+
+// Remove item from cart
+export const removeFromCart = async (userId, itemId) => {
+  try {
+    const response = await axios.delete(`/cart/${userId}/items/${itemId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to remove item from cart");
+  }
+};
+
+// Update item quantity in cart
+export const updateCartItem = async (userId, itemId, quantity) => {
+  try {
+    const response = await axios.put(`/cart/${userId}/items/${itemId}`, {
+      quantity,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to update cart item");
+  }
+};

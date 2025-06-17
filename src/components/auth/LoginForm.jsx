@@ -1,19 +1,62 @@
-// LoginForm.jsx placeholder
-import React, { useState } from 'react';
+// src/components/auth/LoginForm.jsx
 
-const LoginForm = ({ onLogin }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+import React, { useState } from "react";
+import useAuth from "../../hooks/useAuth";
 
-  const handleSubmit = (e) => {
+const LoginForm = () => {
+  const { login } = useAuth();
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onLogin({ email, password });
+    setError("");
+
+    try {
+      await login(formData.email, formData.password);
+    } catch (err) {
+      setError(err.message || "Login failed. Please try again.");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-      <input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+      <div>
+        <label>Email:</label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div>
+        <label>Password:</label>
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
       <button type="submit">Login</button>
     </form>
   );

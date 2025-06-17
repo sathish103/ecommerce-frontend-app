@@ -1,25 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './amplify-config';
-import App from './App';
-import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import { CartProvider } from './context/CartContext';
-import { AdminProvider } from './context/AdminContext';
-import './assets/styles/global.css';
+// src/index.js
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css"; // Optional: if you have global styles
 
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <AuthProvider>
-        <CartProvider>
-          <AdminProvider>
-            <App />
-          </AdminProvider>
-        </CartProvider>
-      </AuthProvider>
-    </BrowserRouter>
+    <App />
   </React.StrictMode>
 );

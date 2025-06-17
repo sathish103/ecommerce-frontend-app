@@ -1,6 +1,23 @@
-import axios from '../axiosInstance';
-import { NOTIFICATION_API } from '../config';
+// src/services/notificationService.js
 
-export const getNotifications = () => axios.get(`${NOTIFICATION_API}/notifications`);
-export const markAsRead = (notificationId) =>
-  axios.post(`${NOTIFICATION_API}/notifications/${notificationId}/read`);
+import axios from "../axiosInstance";
+
+// Get notifications for a user
+export const getUserNotifications = async (userId) => {
+  try {
+    const response = await axios.get(`/notifications/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch notifications");
+  }
+};
+
+// Mark notification as read
+export const markAsRead = async (notificationId) => {
+  try {
+    const response = await axios.put(`/notifications/${notificationId}/read`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to mark notification as read");
+  }
+};
