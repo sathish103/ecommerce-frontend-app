@@ -2,6 +2,7 @@
 
 import React, { createContext, useEffect, useState } from "react";
 import { getToken, removeToken, setToken } from "../utils/auth";
+import { loginUser } from "../services/adminService"; // ✅ using adminService now
 
 export const AuthContext = createContext();
 
@@ -13,7 +14,8 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(!!authToken);
   }, [authToken]);
 
-  const login = (token) => {
+  const login = async (email, password) => {
+    const { token } = await loginUser(email, password);
     setToken(token);
     setAuthToken(token);
     setIsAuthenticated(true);

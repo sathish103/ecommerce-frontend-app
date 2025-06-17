@@ -1,4 +1,4 @@
-// src/services/authService.js
+// src/services/adminService.js
 
 import axios from "../axiosInstance";
 
@@ -17,7 +17,7 @@ export const loginUser = async (email, password) => {
   }
 };
 
-// Register API (optional, if you implement user registration)
+// Register API (optional)
 export const registerUser = async (name, email, password) => {
   try {
     const response = await axios.post("/users/register", {
