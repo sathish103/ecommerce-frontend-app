@@ -1,3 +1,5 @@
+// src/components/auth/RegisterForm.jsx
+
 import React, { useState } from "react";
 import adminService from "../../services/adminService";
 import { useNavigate } from "react-router-dom";
