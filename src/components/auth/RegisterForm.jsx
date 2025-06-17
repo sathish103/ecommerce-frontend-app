@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { registerUser } from "../../services/adminService";
+import adminService from "../../services/adminService";
 import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
@@ -13,7 +13,7 @@ const RegisterForm = () => {
     e.preventDefault();
     setError(null);
     try {
-      await registerUser(name, email, password);
+      await adminService.register({ name, email, password });
       navigate("/login");
     } catch (err) {
       setError("Registration failed. Try a different email.");
