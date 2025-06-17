@@ -1,9 +1,7 @@
-// src/hooks/useAuth.js
-
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import adminService from "../services/adminService";
+import { loginUser } from "../services/adminService";
 
 const useAuth = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -11,8 +9,8 @@ const useAuth = () => {
 
   const login = async (email, password) => {
     try {
-      const data = await adminService.login({ email, password });
-      localStorage.setItem("token", data.token); // Assuming backend returns JWT
+      const data = await loginUser({ email, password });
+      localStorage.setItem("token", data.token); // Store JWT token
       setUser(data.user); // Set user in context
       navigate("/");
     } catch (error) {

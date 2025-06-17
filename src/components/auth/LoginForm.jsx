@@ -1,13 +1,10 @@
-// src/components/auth/LoginForm.jsx
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import adminService from "../../services/adminService";
 import useAuth from "../../hooks/useAuth";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { login } = useAuth(); // ✅ use login method from useAuth
 
   const [formData, setFormData] = useState({
     email: "",
@@ -28,9 +25,7 @@ const LoginForm = () => {
     setError("");
 
     try {
-      const data = await adminService.login(formData);
-      setUser(data.user); // Assuming response returns user object
-      localStorage.setItem("token", data.token); // optional
+      await login(formData.email, formData.password); // ✅ use useAuth login
       navigate("/"); // Redirect after login
     } catch (err) {
       setError(err.message || "Login failed. Please try again.");
