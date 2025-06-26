@@ -30,6 +30,7 @@ const Login = () => {
 
       const data = await response.json();
       login(data.token, data.user);
+      alert('Login successful');
       navigate('/');
     } catch (err) {
       setError(err.message);
@@ -37,9 +38,10 @@ const Login = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', padding: '40px' }}>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit} style={{ maxWidth: 400 }}>
+    <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <form onSubmit={handleSubmit} style={{ maxWidth: 400, backgroundColor: 'white', padding: 30, borderRadius: 10, boxShadow: '0 0 10px rgba(0,0,0,0.1)' }}>
+        <h2 style={{ textAlign: 'center', marginBottom: 20 }}>Login</h2>
+
         <div style={{ marginBottom: 20 }}>
           <label>Email:</label>
           <input
@@ -51,6 +53,7 @@ const Login = () => {
             style={{ width: '100%', padding: 8 }}
           />
         </div>
+
         <div style={{ marginBottom: 20 }}>
           <label>Password:</label>
           <div style={{ position: 'relative' }}>
@@ -71,16 +74,21 @@ const Login = () => {
                 cursor: 'pointer',
                 userSelect: 'none',
               }}
+              title={showPass ? "Hide Password" : "Show Password"}
             >
               {showPass ? '🙈' : '👁️'}
             </span>
           </div>
         </div>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" style={{ padding: 10, width: '100%' }}>Login</button>
-        <p style={{ marginTop: 10 }}>
-          <a href="#" style={{ fontSize: '14px', color: '#007bff' }}>Forgot password?</a>
+        {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+
+        <button type="submit" style={{ padding: 10, width: '100%', marginTop: 10, backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: 4 }}>
+          Login
+        </button>
+
+        <p style={{ marginTop: 12, fontSize: 14, textAlign: 'center' }}>
+          <a href="#" style={{ color: '#007bff' }}>Forgot password?</a>
         </p>
       </form>
     </div>
