@@ -65,7 +65,7 @@ ecommerce-frontend-app/
 │   │   ├── AppRoutes.jsx
 │   │   └── PrivateRoutes.jsx
 │   ├── services/
-│   │   ├── authService.js
+│   │   ├── adminService.js
 │   │   ├── cartService.js
 │   │   ├── discountService.js
 │   │   ├── inventoryService.js
