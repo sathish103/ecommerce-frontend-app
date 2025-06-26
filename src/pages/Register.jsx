@@ -30,15 +30,24 @@ const Register = () => {
     }
 
     try {
-      await api.post('/users/register', {
+      const response = await api.post('/users/register', {
         name: form.name,
         email: form.email,
         password: form.password,
       });
-      alert('Registration successful. Please login.');
-      navigate('/login');
+
+      if (response.status === 200) {
+        alert('Registration successful. Please login.');
+        navigate('/login');
+      } else {
+        setError('Registration failed.');
+      }
     } catch (err) {
-      setError(err.message || 'Registration failed.');
+      if (err.response?.status === 409) {
+        setError('Email already exists.');
+      } else {
+        setError('Registration failed. Please try again.');
+      }
     }
   };
 

@@ -11,11 +11,18 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
+    const storedUserStr = localStorage.getItem('user');
 
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
+    try {
+      const parsedUser = storedUserStr ? JSON.parse(storedUserStr) : null;
+
+      if (storedToken && parsedUser) {
+        setToken(storedToken);
+        setUser(parsedUser);
+      }
+    } catch (err) {
+      console.error("❌ Invalid JSON in localStorage 'user':", err);
+      localStorage.removeItem('user'); // Clean up corrupted value
     }
 
     setAuthLoading(false); // Mark auth check complete

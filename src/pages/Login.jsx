@@ -1,5 +1,3 @@
-// src/pages/Login.jsx
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -28,8 +26,11 @@ const Login = () => {
         throw new Error('Invalid credentials');
       }
 
-      const data = await response.json();
-      login(data.token, data.user);
+      const user = await response.json();
+
+      // ✅ Store dummy token and user safely
+      login('dummy-token', user);
+
       alert('Login successful');
       navigate('/');
     } catch (err) {
@@ -83,7 +84,18 @@ const Login = () => {
 
         {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
 
-        <button type="submit" style={{ padding: 10, width: '100%', marginTop: 10, backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: 4 }}>
+        <button
+          type="submit"
+          style={{
+            padding: 10,
+            width: '100%',
+            marginTop: 10,
+            backgroundColor: '#007bff',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 4,
+          }}
+        >
           Login
         </button>
 

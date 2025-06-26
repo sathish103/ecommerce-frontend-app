@@ -1,9 +1,8 @@
-// src/services/apiService.js
-
 import config from '../config';
 
 const getToken = () => {
-  return localStorage.getItem('token'); // 👈 match your AuthContext usage
+  const token = localStorage.getItem('token');
+  return token && token !== 'undefined' ? token : null;
 };
 
 const getHeaders = (isJson = true) => {
@@ -24,7 +23,15 @@ const getHeaders = (isJson = true) => {
 const handleResponse = async (res) => {
   const contentType = res.headers.get('content-type');
   const isJson = contentType && contentType.includes('application/json');
-  const data = isJson ? await res.json() : null;
+
+  let data = null;
+  if (isJson) {
+    try {
+      data = await res.json();
+    } catch (err) {
+      console.warn('⚠️ Failed to parse JSON:', err);
+    }
+  }
 
   if (!res.ok) {
     const message = data?.message || res.statusText || 'Request failed';
