@@ -30,20 +30,16 @@ const Register = () => {
     }
 
     try {
-      const response = await api.post('/users/register', {
+      await api.post('/users/register', {
         name: form.name,
         email: form.email,
         password: form.password,
       });
 
-      if (response.status === 200) {
-        alert('Registration successful. Please login.');
-        navigate('/login');
-      } else {
-        setError('Registration failed.');
-      }
+      alert('Registration successful. Please login.');
+      navigate('/login');
     } catch (err) {
-      if (err.response?.status === 409) {
+      if (err.message.includes('already')) {
         setError('Email already exists.');
       } else {
         setError('Registration failed. Please try again.');
@@ -85,13 +81,7 @@ const Register = () => {
           />
           <span
             onClick={() => setShowPass(!showPass)}
-            style={{
-              position: 'absolute',
-              right: 10,
-              top: 8,
-              cursor: 'pointer',
-              userSelect: 'none',
-            }}
+            style={{ position: 'absolute', right: 10, top: 8, cursor: 'pointer', userSelect: 'none' }}
           >
             {showPass ? '🙈' : '👁️'}
           </span>
@@ -109,13 +99,7 @@ const Register = () => {
           />
           <span
             onClick={() => setShowConfirm(!showConfirm)}
-            style={{
-              position: 'absolute',
-              right: 10,
-              top: 8,
-              cursor: 'pointer',
-              userSelect: 'none',
-            }}
+            style={{ position: 'absolute', right: 10, top: 8, cursor: 'pointer', userSelect: 'none' }}
           >
             {showConfirm ? '🙈' : '👁️'}
           </span>
