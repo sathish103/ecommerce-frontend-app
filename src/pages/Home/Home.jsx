@@ -1,5 +1,3 @@
-// src/pages/Home/Home.jsx
-
 import React, { useEffect, useState } from "react";
 import ProductGrid from "../../components/product/ProductGrid";
 import DiscountBanner from "../../components/common/DiscountBanner";
@@ -18,7 +16,9 @@ const Home = () => {
         const productData = await productService.getAllProducts();
         const discountData = await discountService.getActiveDiscounts();
         setProducts(productData);
-        if (discountData.length > 0) setDiscount(discountData[0]);
+        if (discountData.length > 0) {
+          setDiscount(discountData[0]);
+        }
       } catch (err) {
         console.error("Failed to load home data:", err);
       } finally {
@@ -35,12 +35,12 @@ const Home = () => {
         <Loader />
       ) : (
         <>
-          {discount && (
-            <DiscountBanner
-              title={discount.title}
-              description={discount.description}
-            />
-          )}
+          <DiscountBanner
+            title={discount?.title || "Get 20% OFF!"}
+            description={
+              discount?.description || "Use code SAVE20 at checkout."
+            }
+          />
 
           <h2 className="text-2xl font-bold mb-4">Featured Products</h2>
           <ProductGrid products={products} />
