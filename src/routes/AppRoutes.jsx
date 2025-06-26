@@ -1,12 +1,9 @@
-// src/routes/AppRoutes.jsx
-
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Home from "../pages/Home/Home";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
-
 import ProductList from "../pages/Products/ProductList";
 import ProductDetail from "../pages/Products/ProductDetail";
 import CartPage from "../pages/Cart/CartPage";
@@ -19,11 +16,13 @@ import DiscountsPage from "../pages/Discounts/DiscountsPage";
 import NotificationBar from "../pages/Notifications/NotificationBar";
 
 import PrivateRoute from "./PrivateRoutes";
+import MainLayout from "../components/layout/MainLayout";
 
-const AppRoutes = () => {
-  return (
-    <Router>
-      <Routes>
+const AppRoutes = () => (
+  <Router>
+    <Routes>
+      {/* All routes inside MainLayout */}
+      <Route element={<MainLayout />}>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -35,49 +34,14 @@ const AppRoutes = () => {
         <Route path="/notifications" element={<NotificationBar />} />
 
         {/* Private Routes */}
-        <Route
-          path="/cart"
-          element={
-            <PrivateRoute>
-              <CartPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/orders"
-          element={
-            <PrivateRoute>
-              <OrdersPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/checkout"
-          element={
-            <PrivateRoute>
-              <CheckoutPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <PrivateRoute>
-              <Profile />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/products/:id/review"
-          element={
-            <PrivateRoute>
-              <AddReview />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
-    </Router>
-  );
-};
+        <Route path="/cart" element={<PrivateRoute><CartPage /></PrivateRoute>} />
+        <Route path="/orders" element={<PrivateRoute><OrdersPage /></PrivateRoute>} />
+        <Route path="/checkout" element={<PrivateRoute><CheckoutPage /></PrivateRoute>} />
+        <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+        <Route path="/products/:id/review" element={<PrivateRoute><AddReview /></PrivateRoute>} />
+      </Route>
+    </Routes>
+  </Router>
+);
 
 export default AppRoutes;
