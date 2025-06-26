@@ -1,3 +1,5 @@
+// src/pages/Home/Home.jsx
+
 import React, { useEffect, useState } from "react";
 import ProductGrid from "../../components/product/ProductGrid";
 import DiscountBanner from "../../components/common/DiscountBanner";
@@ -29,24 +31,14 @@ const Home = () => {
     fetchHomeData();
   }, []);
 
-  return (
-    <div className="p-4">
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <DiscountBanner
-            title={discount?.title || "Get 20% OFF!"}
-            description={
-              discount?.description || "Use code SAVE20 at checkout."
-            }
-          />
-
-          <h2 className="text-2xl font-bold mb-4">Featured Products</h2>
-          <ProductGrid products={products} />
-        </>
-      )}
-    </div>
+  return loading ? (
+    <Loader />
+  ) : (
+    <DiscountBanner
+      title={discount?.title || "Get 20% OFF!"}
+      description={discount?.description || "Use code SAVE20 at checkout."}
+      products={products}
+    />
   );
 };
 
