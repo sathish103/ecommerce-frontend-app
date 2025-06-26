@@ -9,7 +9,15 @@ const Header = () => {
   return (
     <header className="bg-gray-800 text-white p-4 flex justify-between items-center">
       <Link to="/" className="flex items-center space-x-2">
-        <img src={logo} alt="Logo" className="h-10" />
+        <img
+          src={logo}
+          alt="Logo"
+          className="h-10 w-auto object-contain max-w-[150px]"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "https://via.placeholder.com/100x40.png?text=Logo";
+          }}
+        />
         <span className="text-xl font-bold">eShop</span>
       </Link>
       <nav className="space-x-4">

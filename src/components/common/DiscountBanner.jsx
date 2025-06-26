@@ -1,22 +1,19 @@
+// src/components/common/DiscountBanner.jsx
+
 import React from "react";
-import banner from "../../assets/images/banner.jpg"; // Make sure this path is correct
+import banner from "../../assets/images/banner.jpg";
 
 const DiscountBanner = ({ title, description }) => {
   return (
-    <div className="relative w-full mb-6">
-      {/* Banner Image */}
+    <div className="relative w-full h-[250px] md:h-[300px] overflow-hidden rounded-xl shadow-md mb-6">
       <img
         src={banner}
         alt="Discount Banner"
-        className="w-full h-64 object-cover"
+        className="w-full h-full object-cover"
       />
-
-      {/* Debug/Test Overlay */}
-      <div className="absolute inset-0 text-white bg-black bg-opacity-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold">{title || "Hello from Banner"}</h1>
-          <p className="text-lg">{description || "Testing banner content..."}</p>
-        </div>
+      <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white text-center px-4">
+        <h2 className="text-3xl font-bold mb-2">{title || "Get 20% OFF!"}</h2>
+        <p className="text-md">{description || "Use code SAVE20 at checkout."}</p>
       </div>
     </div>
   );
