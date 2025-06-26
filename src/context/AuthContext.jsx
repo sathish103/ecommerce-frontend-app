@@ -1,13 +1,14 @@
+// src/context/AuthContext.jsx
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem('token') || null);
+  const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
-  const [authLoading, setAuthLoading] = useState(true); // ✅ new
+  const [authLoading, setAuthLoading] = useState(true);
 
-  // ✅ Restore user from localStorage/sessionStorage (simulate login persistence)
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
@@ -17,7 +18,7 @@ export const AuthProvider = ({ children }) => {
       setUser(JSON.parse(storedUser));
     }
 
-    setAuthLoading(false); // done checking
+    setAuthLoading(false); // Mark auth check complete
   }, []);
 
   const login = (jwtToken, userData) => {

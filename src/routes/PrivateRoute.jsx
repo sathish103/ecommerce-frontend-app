@@ -5,7 +5,11 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const PrivateRoute = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, authLoading } = useAuth();
+
+  if (authLoading) {
+    return <div className="text-center p-4 text-gray-600">Checking login status...</div>;
+  }
 
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 };

@@ -1,3 +1,5 @@
+// src/App.jsx
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
@@ -7,21 +9,22 @@ import PrivateRoute from './routes/PrivateRoute';
 import AdminRoute from './routes/AdminRoute';
 import AdminDashboard from './pages/AdminDashboard';
 import Navbar from './components/Navbar';
-import { useAuth } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 
-const App = () => {
-  const { authLoading } = useAuth(); // 👈 check loading status
+// Wrapper to access auth inside App component
+const AppRoutes = () => {
+  const { authLoading } = useAuth();
 
   if (authLoading) {
     return (
-      <div className="h-screen flex items-center justify-center text-xl">
+      <div className="h-screen flex items-center justify-center text-xl text-gray-700">
         Loading...
       </div>
     );
   }
 
   return (
-    <Router>
+    <>
       <Navbar />
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -43,7 +46,17 @@ const App = () => {
           }
         />
       </Routes>
-    </Router>
+    </>
+  );
+};
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </AuthProvider>
   );
 };
 
