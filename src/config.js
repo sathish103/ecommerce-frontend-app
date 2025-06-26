@@ -1,6 +1,6 @@
 // src/config.js
 
-const BASE_API_URL = import.meta.env.VITE_API_BASE_URL || "https://api.devopscicd.xyz"; // fallback
+const BASE_API_URL = import.meta.env.VITE_API_BASE_URL || "https://api.devopscicd.xyz";
 
 const API_ENDPOINTS = {
   USERS: `${BASE_API_URL}/users`,
