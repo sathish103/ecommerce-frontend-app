@@ -1,7 +1,8 @@
 // src/config.js
 
-const BASE_API_URL = "https://api.devopscicd.xyz";
-
-export default {
-  BASE_API_URL,
+const config = {
+  API_BASE_URL: 'https://api.devopscicd.xyz',
+  JWT_STORAGE_KEY: 'ecom_jwt_token'
 };
+
+export default config;

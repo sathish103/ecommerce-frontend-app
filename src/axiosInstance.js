@@ -1,22 +1,22 @@
-// src/axiosInstance.js
-
 import axios from "axios";
-import config from "./config";
+import { BASE_API_URL } from "./config";
 
 const axiosInstance = axios.create({
-  baseURL: config.BASE_API_URL,
+  baseURL: BASE_API_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-// Attach token (if any) to every request
 axiosInstance.interceptors.request.use(
-  (req) => {
+  (config) => {
     const token = localStorage.getItem("token");
     if (token) {
-      req.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
-    return req;
+    return config;
   },
-  (err) => Promise.reject(err)
+  (error) => Promise.reject(error)
 );
 
 export default axiosInstance;

@@ -1,15 +1,10 @@
 // src/App.jsx
 
-import React from "react";
-import AppRoutes from "./routes/AppRoutes";
-import { AuthProvider } from "./context/AuthContext";
+import React from 'react';
+import Home from './pages/Home';
 
 const App = () => {
-  return (
-    <AuthProvider>
-      <AppRoutes />
-    </AuthProvider>
-  );
+  return <Home />;
 };
 
 export default App;
