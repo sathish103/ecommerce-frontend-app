@@ -1,13 +1,16 @@
 // src/axiosInstance.js
 
 import axios from "axios";
-import config from "./config";
+import BASE_API_URL from "./config";
 
 const axiosInstance = axios.create({
-  baseURL: config.BASE_API_URL,
+  baseURL: BASE_API_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-// Attach token (if any) to every request
+// Attach JWT token from localStorage if present
 axiosInstance.interceptors.request.use(
   (req) => {
     const token = localStorage.getItem("token");
@@ -16,7 +19,7 @@ axiosInstance.interceptors.request.use(
     }
     return req;
   },
-  (err) => Promise.reject(err)
+  (error) => Promise.reject(error)
 );
 
 export default axiosInstance;
