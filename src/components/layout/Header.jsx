@@ -1,13 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import logo from "../../assets/images/logo.png"; // ✅ import logo image
 
 const Header = () => {
   const { isAuthenticated, logout } = useAuth();
 
   return (
     <header className="bg-gray-800 text-white p-4 flex justify-between items-center">
-      <Link to="/" className="text-xl font-bold">🛒 eShop</Link>
+      <Link to="/" className="flex items-center space-x-2">
+        <img src={logo} alt="Logo" className="h-10" />
+        <span className="text-xl font-bold">eShop</span>
+      </Link>
       <nav className="space-x-4">
         <Link to="/products">Products</Link>
         <Link to="/search?q=mobile">Search</Link>
