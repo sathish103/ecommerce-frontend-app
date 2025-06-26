@@ -23,6 +23,15 @@ const discountService = {
       throw new Error("Invalid or expired discount code");
     }
   },
+
+  getActiveDiscounts: async () => {
+    try {
+      const response = await axios.get("/discounts/active");
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to fetch active discounts");
+    }
+  },
 };
 
 export default discountService;
