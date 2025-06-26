@@ -9,8 +9,11 @@ const Register = () => {
     name: '',
     email: '',
     password: '',
+    confirmPassword: '',
   });
   const [error, setError] = useState('');
+  const [showPass, setShowPass] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,8 +23,18 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (form.password !== form.confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
     try {
-      await api.post('/users/register', form);
+      await api.post('/users/register', {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      });
       alert('Registration successful. Please login.');
       navigate('/login');
     } catch (err) {
@@ -36,6 +49,7 @@ const Register = () => {
         <input
           name="name"
           placeholder="Name"
+          autoComplete="name"
           value={form.name}
           onChange={handleChange}
           required
@@ -44,18 +58,60 @@ const Register = () => {
           name="email"
           type="email"
           placeholder="Email"
+          autoComplete="email"
           value={form.email}
           onChange={handleChange}
           required
         />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
+        <div style={{ position: 'relative' }}>
+          <input
+            name="password"
+            type={showPass ? 'text' : 'password'}
+            placeholder="Password"
+            autoComplete="new-password"
+            value={form.password}
+            onChange={handleChange}
+            required
+            style={{ width: '100%', paddingRight: 40 }}
+          />
+          <span
+            onClick={() => setShowPass(!showPass)}
+            style={{
+              position: 'absolute',
+              right: 10,
+              top: 8,
+              cursor: 'pointer',
+              userSelect: 'none',
+            }}
+          >
+            {showPass ? '🙈' : '👁️'}
+          </span>
+        </div>
+        <div style={{ position: 'relative' }}>
+          <input
+            name="confirmPassword"
+            type={showConfirm ? 'text' : 'password'}
+            placeholder="Confirm Password"
+            autoComplete="new-password"
+            value={form.confirmPassword}
+            onChange={handleChange}
+            required
+            style={{ width: '100%', paddingRight: 40 }}
+          />
+          <span
+            onClick={() => setShowConfirm(!showConfirm)}
+            style={{
+              position: 'absolute',
+              right: 10,
+              top: 8,
+              cursor: 'pointer',
+              userSelect: 'none',
+            }}
+          >
+            {showConfirm ? '🙈' : '👁️'}
+          </span>
+        </div>
+
         <button
           type="submit"
           style={{

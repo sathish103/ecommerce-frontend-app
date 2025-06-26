@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState('');
 
   const { login } = useAuth();
@@ -28,8 +29,8 @@ const Login = () => {
       }
 
       const data = await response.json();
-      login(data.token, data.user); // store token in context
-      navigate('/'); // redirect to dashboard
+      login(data.token, data.user);
+      navigate('/');
     } catch (err) {
       setError(err.message);
     }
@@ -44,6 +45,7 @@ const Login = () => {
           <input
             type="email"
             value={email}
+            autoComplete="email"
             onChange={(e) => setEmail(e.target.value)}
             required
             style={{ width: '100%', padding: 8 }}
@@ -51,16 +53,35 @@ const Login = () => {
         </div>
         <div style={{ marginBottom: 20 }}>
           <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ width: '100%', padding: 8 }}
-          />
+          <div style={{ position: 'relative' }}>
+            <input
+              type={showPass ? 'text' : 'password'}
+              value={password}
+              autoComplete="current-password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              style={{ width: '100%', padding: 8, paddingRight: 40 }}
+            />
+            <span
+              onClick={() => setShowPass(!showPass)}
+              style={{
+                position: 'absolute',
+                right: 10,
+                top: 8,
+                cursor: 'pointer',
+                userSelect: 'none',
+              }}
+            >
+              {showPass ? '🙈' : '👁️'}
+            </span>
+          </div>
         </div>
+
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <button type="submit" style={{ padding: 10, width: '100%' }}>Login</button>
+        <p style={{ marginTop: 10 }}>
+          <a href="#" style={{ fontSize: '14px', color: '#007bff' }}>Forgot password?</a>
+        </p>
       </form>
     </div>
   );
