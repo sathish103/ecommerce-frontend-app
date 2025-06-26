@@ -15,7 +15,9 @@ const Home = () => {
         const productData = await productService.getAllProducts();
         const discountData = await discountService.getActiveDiscounts();
         setProducts(productData);
-        if (discountData.length > 0) setDiscount(discountData[0]);
+        if (discountData.length > 0) {
+          setDiscount(discountData[0]);
+        }
       } catch (err) {
         console.error("Failed to load home data:", err);
       } finally {
@@ -29,13 +31,11 @@ const Home = () => {
   return loading ? (
     <Loader />
   ) : (
-    <div className="p-4">
-      <DiscountBanner
-        title={discount?.title || "Get 20% OFF!"}
-        description={discount?.description || "Use code SAVE20 at checkout."}
-        products={products}
-      />
-    </div>
+    <DiscountBanner
+      title={discount?.title || "Get 20% OFF!"}
+      description={discount?.description || "Use code SAVE20 at checkout."}
+      products={products}
+    />
   );
 };
 
