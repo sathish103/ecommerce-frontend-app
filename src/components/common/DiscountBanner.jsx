@@ -1,25 +1,17 @@
-// src/components/common/DiscountBanner.jsx
-
 import React from "react";
-import banner from "../../assets/images/banner.jpg";
 import ProductGrid from "../product/ProductGrid";
 
 const DiscountBanner = ({ title, description, products }) => {
   return (
-    <div className="relative w-full h-screen overflow-hidden">
-      <img
-        src={banner}
-        alt="Discount Banner"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex flex-col items-center justify-center px-4">
-        <h2 className="text-4xl font-bold mb-2 text-center">{title}</h2>
-        <p className="text-lg mb-6 text-center">{description}</p>
+    <div className="bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-xl shadow-lg p-6 mb-6">
+      <div className="text-center mb-6">
+        <h2 className="text-3xl font-bold">{title}</h2>
+        <p className="text-lg mt-2">{description}</p>
+      </div>
 
-        <div className="w-full max-w-6xl">
-          <h2 className="text-2xl font-bold mb-4 text-center">Featured Products</h2>
-          <ProductGrid products={products} />
-        </div>
+      <div className="bg-white text-black rounded-lg p-4">
+        <h3 className="text-xl font-semibold mb-4">Featured Products</h3>
+        <ProductGrid products={products} />
       </div>
     </div>
   );
