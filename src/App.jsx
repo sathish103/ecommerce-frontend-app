@@ -14,14 +14,16 @@ import ReviewsPage from './pages/ReviewsPage';
 import DiscountsPage from './pages/DiscountsPage';
 import SearchPage from './pages/SearchPage';
 import Login from './pages/Login';
+import Register from './pages/Register'; // ✅ newly added
 import SidebarLayout from './components/SidebarLayout';
-import PrivateRoute from './routes/PrivateRoute'; // ✅ import added
+import PrivateRoute from './routes/PrivateRoute';
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} /> {/* ✅ added */}
 
         <Route element={<PrivateRoute><SidebarLayout /></PrivateRoute>}>
           <Route path="/" element={<Home />} />

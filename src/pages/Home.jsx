@@ -1,3 +1,5 @@
+// src/pages/Home.jsx
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -15,23 +17,43 @@ const services = [
 ];
 
 const Home = () => (
-  <div style={{ padding: '40px', fontFamily: 'Arial, sans-serif' }}>
-    <h1 style={{ textAlign: 'center' }}>eCommerce Microservices Dashboard</h1>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px' }}>
+  <div
+    style={{
+      padding: '60px 20px',
+      fontFamily: 'Arial, sans-serif',
+      textAlign: 'center',
+      background: '#f4f6f8',
+    }}
+  >
+    <h1 style={{ fontSize: '48px', color: '#333', marginBottom: '10px' }}>
+      🛍️ Welcome to eCommerce
+    </h1>
+    <p style={{ fontSize: '20px', color: '#555' }}>
+      Your microservices-powered admin dashboard
+    </p>
+
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '15px',
+        marginTop: '50px',
+        alignItems: 'center',
+      }}
+    >
       {services.map((svc, idx) => (
         <Link
           key={idx}
           to={svc.path}
           style={{
-            padding: '12px 20px',
+            padding: '12px 30px',
             backgroundColor: '#007bff',
             color: '#fff',
-            borderRadius: '6px',
+            borderRadius: '8px',
             textDecoration: 'none',
-            textAlign: 'center',
             fontSize: '16px',
-            width: 'fit-content',
-            margin: '0 auto'
+            minWidth: '220px',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
           }}
         >
           {svc.label}
