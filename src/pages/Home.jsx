@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const services = [
   { label: 'User Service', path: '/users' },
@@ -14,36 +15,59 @@ const services = [
   { label: 'Search Service', path: '/search' },
 ];
 
-const Home = () => (
-  <div style={{ padding: '40px', fontFamily: 'Arial, sans-serif', textAlign: 'center' }}>
-    <h1 style={{ fontSize: '48px', color: '#222' }}>
-      <span role="img" aria-label="bag">🛍️</span> Welcome to <strong>eCommerce</strong>
-    </h1>
-    <p style={{ fontSize: '18px', color: '#555', marginTop: '10px' }}>
-      Your microservices-powered admin dashboard
-    </p>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px' }}>
-      {services.map((svc, idx) => (
-        <Link
-          key={idx}
-          to={svc.path}
+const Home = () => {
+  const { token } = useAuth();
+
+  return (
+    <div
+      style={{
+        padding: '40px 20px',
+        fontFamily: 'Arial, sans-serif',
+        textAlign: 'center',
+      }}
+    >
+      <h1 style={{ fontSize: '48px', color: '#222' }}>
+        <span role="img" aria-label="bag">🛍️</span> Welcome to <strong>eCommerce</strong>
+      </h1>
+      <p style={{ fontSize: '18px', color: '#555', marginTop: '10px' }}>
+        Your microservices-powered admin dashboard
+      </p>
+
+      {token ? (
+        <div
           style={{
-            padding: '12px 20px',
-            backgroundColor: '#007bff',
-            color: '#fff',
-            borderRadius: '6px',
-            textDecoration: 'none',
-            textAlign: 'center',
-            fontSize: '16px',
-            width: 'fit-content',
-            margin: '0 auto'
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: '20px',
+            marginTop: '40px',
           }}
         >
-          {svc.label}
-        </Link>
-      ))}
+          {services.map((svc, idx) => (
+            <Link
+              key={idx}
+              to={svc.path}
+              style={{
+                padding: '12px 20px',
+                backgroundColor: '#007bff',
+                color: '#fff',
+                borderRadius: '6px',
+                textDecoration: 'none',
+                fontSize: '16px',
+                minWidth: '180px',
+              }}
+            >
+              {svc.label}
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <div style={{ marginTop: '40px', color: '#888' }}>
+          <p>Please <Link to="/login" style={{ color: '#007bff', textDecoration: 'underline' }}>log in</Link> to access the services.</p>
+        </div>
+      )}
     </div>
-  </div>
-);
+  );
+};
 
 export default Home;

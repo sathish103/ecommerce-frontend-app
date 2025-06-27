@@ -21,14 +21,18 @@ const TopNav = () => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 999,
+        height: '60px',
       }}
     >
-      {/* App Name */}
       <Link to="/" style={{ color: '#61dafb', fontSize: '22px', textDecoration: 'none' }}>
         🛒 eCommerce App
       </Link>
 
-      {/* Right Side Nav Buttons */}
       <nav style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
         {!token ? (
           <>

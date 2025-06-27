@@ -18,15 +18,18 @@ import Register from './pages/Register';
 import SidebarLayout from './components/SidebarLayout';
 import PrivateRoute from './routes/PrivateRoute';
 import PublicRoute from './routes/PublicRoute';
+import PublicLayout from './components/PublicLayout'; // 🆕
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        {/* ✅ Public Routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-        <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+        {/* ✅ Public Routes wrapped with TopNav */}
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+          <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+        </Route>
 
         {/* ✅ Private Routes with Sidebar + TopNav */}
         <Route element={<PrivateRoute><SidebarLayout /></PrivateRoute>}>
