@@ -17,17 +17,17 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import SidebarLayout from './components/SidebarLayout';
 import PrivateRoute from './routes/PrivateRoute';
+import TopNav from './components/TopNav'; // ✅ Added
 
 const App = () => {
   return (
     <Router>
+      <TopNav /> {/* ✅ Always visible at top */}
       <Routes>
-        {/* Public routes */}
-        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Home />} />
 
-        {/* Protected routes */}
         <Route element={<PrivateRoute><SidebarLayout /></PrivateRoute>}>
           <Route path="/users" element={<UsersPage />} />
           <Route path="/products" element={<ProductsPage />} />
@@ -41,7 +41,6 @@ const App = () => {
           <Route path="/search" element={<SearchPage />} />
         </Route>
 
-        {/* Fallback */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
