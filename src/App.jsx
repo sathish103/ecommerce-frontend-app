@@ -14,7 +14,7 @@ import ReviewsPage from './pages/ReviewsPage';
 import DiscountsPage from './pages/DiscountsPage';
 import SearchPage from './pages/SearchPage';
 import Login from './pages/Login';
-import Register from './pages/Register'; // ✅ newly added
+import Register from './pages/Register';
 import SidebarLayout from './components/SidebarLayout';
 import PrivateRoute from './routes/PrivateRoute';
 
@@ -22,11 +22,13 @@ const App = () => {
   return (
     <Router>
       <Routes>
+        {/* Public routes */}
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} /> {/* ✅ added */}
+        <Route path="/register" element={<Register />} />
 
+        {/* Protected routes */}
         <Route element={<PrivateRoute><SidebarLayout /></PrivateRoute>}>
-          <Route path="/" element={<Home />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/orders" element={<OrdersPage />} />
@@ -39,6 +41,7 @@ const App = () => {
           <Route path="/search" element={<SearchPage />} />
         </Route>
 
+        {/* Fallback */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
