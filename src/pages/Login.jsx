@@ -1,5 +1,7 @@
+// src/pages/Login.jsx
+
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../services/apiService';
 import { useAuth } from '../context/AuthContext';
 
@@ -8,7 +10,10 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
+
+  const from = location.state?.from?.pathname || '/'; // <- redirect path
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +22,7 @@ const Login = () => {
       const res = await api.post('/users/login', { email, password });
       const { token, user } = res;
       login(token, user);
-      navigate('/');
+      navigate(from, { replace: true }); // ✅ redirect to original page
     } catch (err) {
       setError('Invalid credentials or server error');
     }

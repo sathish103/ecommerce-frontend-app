@@ -1,15 +1,16 @@
-// src/components/TopNav.jsx
-
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const TopNav = () => {
   const location = useLocation();
-  const navItems = [
-    { label: 'Home', path: '/' },
-    { label: 'Login', path: '/login' },
-    { label: 'Register', path: '/register' },
-  ];
+  const navigate = useNavigate();
+  const { token, user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <header
@@ -27,21 +28,61 @@ const TopNav = () => {
         🛒 eCommerce App
       </Link>
 
-      {/* Navigation Buttons */}
-      <nav style={{ display: 'flex', gap: '20px' }}>
-        {navItems.map((item, index) => (
-          <Link
-            key={index}
-            to={item.path}
-            style={{
-              color: location.pathname === item.path ? '#61dafb' : '#fff',
-              textDecoration: 'none',
-              fontWeight: location.pathname === item.path ? 'bold' : 'normal',
-            }}
-          >
-            {item.label}
-          </Link>
-        ))}
+      {/* Right Side Nav Buttons */}
+      <nav style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+        {!token ? (
+          <>
+            <Link
+              to="/"
+              style={{
+                color: location.pathname === '/' ? '#61dafb' : '#fff',
+                textDecoration: 'none',
+                fontWeight: location.pathname === '/' ? 'bold' : 'normal',
+              }}
+            >
+              Home
+            </Link>
+            <Link
+              to="/login"
+              style={{
+                color: location.pathname === '/login' ? '#61dafb' : '#fff',
+                textDecoration: 'none',
+                fontWeight: location.pathname === '/login' ? 'bold' : 'normal',
+              }}
+            >
+              Login
+            </Link>
+            <Link
+              to="/register"
+              style={{
+                color: location.pathname === '/register' ? '#61dafb' : '#fff',
+                textDecoration: 'none',
+                fontWeight: location.pathname === '/register' ? 'bold' : 'normal',
+              }}
+            >
+              Register
+            </Link>
+          </>
+        ) : (
+          <>
+            <span style={{ fontWeight: 'bold', color: '#61dafb' }}>
+              👤 {user?.name || user?.email || 'User'}
+            </span>
+            <button
+              onClick={handleLogout}
+              style={{
+                backgroundColor: '#ff4d4f',
+                border: 'none',
+                color: '#fff',
+                padding: '6px 12px',
+                borderRadius: '4px',
+                cursor: 'pointer',
+              }}
+            >
+              Logout
+            </button>
+          </>
+        )}
       </nav>
     </header>
   );
