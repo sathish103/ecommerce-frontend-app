@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
 const services = [
@@ -16,37 +16,42 @@ const services = [
 ];
 
 const SidebarLayout = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+
+  const toggleSidebar = () => setIsOpen(!isOpen);
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', fontFamily: 'Arial, sans-serif' }}>
       {/* Sidebar */}
       <div
         style={{
-          width: '220px',
+          width: isOpen ? '220px' : '0',
+          overflow: 'hidden',
+          transition: 'width 0.3s ease',
           background: '#1e1e2f',
           color: '#fff',
-          padding: '20px',
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
+          paddingTop: '20px',
+          position: 'fixed',
+          height: '100%',
+          zIndex: 1000,
         }}
       >
-        <h2 style={{ color: '#61dafb', marginBottom: '30px' }}>Dashboard</h2>
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <h2 style={{ color: '#61dafb', marginLeft: '20px' }}>Dashboard</h2>
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '20px' }}>
           {services.map((svc, index) => {
             const isActive = location.pathname === svc.path;
             return (
               <Link
                 key={index}
                 to={svc.path}
+                onClick={() => setIsOpen(false)} // close after click
                 style={{
                   color: isActive ? '#61dafb' : '#ccc',
                   backgroundColor: isActive ? '#2d2d3a' : 'transparent',
                   padding: '10px 14px',
                   textDecoration: 'none',
                   borderRadius: '6px',
-                  transition: 'all 0.2s ease',
                 }}
               >
                 {svc.label}
@@ -56,13 +61,33 @@ const SidebarLayout = () => {
         </nav>
       </div>
 
-      {/* Main Content */}
+      {/* Hamburger toggle (visible on small screens) */}
+      <button
+        onClick={toggleSidebar}
+        style={{
+          position: 'fixed',
+          top: 10,
+          left: 10,
+          background: '#1e1e2f',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '4px',
+          padding: '10px',
+          zIndex: 1100,
+          display: 'block',
+        }}
+      >
+        ☰
+      </button>
+
+      {/* Main content */}
       <div
         style={{
           flex: 1,
-          background: '#f9f9f9',
+          marginLeft: window.innerWidth >= 768 ? '220px' : '0',
           padding: '30px',
-          overflowY: 'auto',
+          background: '#f9f9f9',
+          width: '100%',
         }}
       >
         <Outlet />
