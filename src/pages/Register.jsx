@@ -11,6 +11,7 @@ const Register = () => {
     password: '',
   });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,11 +21,19 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     try {
-      await api.post('/users/register', form); // adjust if your endpoint differs
-      navigate('/login');
+      const res = await api.post('/users/register', form);
+
+      if (res && res.id) {
+        setSuccess('Registration successful! Redirecting...');
+        setTimeout(() => navigate('/login'), 1500);
+      } else {
+        setError('Registration failed. Please check input or try again.');
+      }
     } catch (err) {
-      setError('Registration failed. Try again.');
+      console.error('Registration error:', err);
+      setError('Registration failed. Please try again.');
     }
   };
 
@@ -63,6 +72,7 @@ const Register = () => {
           Register
         </button>
         {error && <div style={{ color: 'red' }}>{error}</div>}
+        {success && <div style={{ color: 'green' }}>{success}</div>}
       </form>
     </div>
   );
