@@ -1,20 +1,20 @@
 import axios from "axios";
-import { BASE_API_URL } from "./config";
+import config from "./config";
 
 const axiosInstance = axios.create({
-  baseURL: BASE_API_URL,
+  baseURL: config.API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 axiosInstance.interceptors.request.use(
-  (config) => {
+  (request) => {
     const token = localStorage.getItem("token");
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      request.headers.Authorization = `Bearer ${token}`;
     }
-    return config;
+    return request;
   },
   (error) => Promise.reject(error)
 );
