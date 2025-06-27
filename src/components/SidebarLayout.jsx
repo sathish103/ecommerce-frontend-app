@@ -1,5 +1,8 @@
+// src/components/SidebarLayout.jsx
+
 import React, { useState } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const services = [
   { label: 'Home', path: '/' },
@@ -18,15 +21,22 @@ const services = [
 const SidebarLayout = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const toggleSidebar = () => setIsOpen(!isOpen);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', fontFamily: 'Arial, sans-serif' }}>
       {/* Sidebar */}
       <div
         style={{
-          width: isOpen ? '220px' : '0',
+          width: isOpen || window.innerWidth >= 768 ? '220px' : '0',
           overflow: 'hidden',
           transition: 'width 0.3s ease',
           background: '#1e1e2f',
@@ -58,10 +68,26 @@ const SidebarLayout = () => {
               </Link>
             );
           })}
+
+          {/* 🔴 Logout Button */}
+          <button
+            onClick={handleLogout}
+            style={{
+              marginTop: '30px',
+              backgroundColor: '#ff4d4f',
+              color: '#fff',
+              padding: '10px 14px',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+            }}
+          >
+            Logout
+          </button>
         </nav>
       </div>
 
-      {/* Hamburger toggle (visible on small screens) */}
+      {/* Hamburger toggle */}
       <button
         onClick={toggleSidebar}
         style={{
