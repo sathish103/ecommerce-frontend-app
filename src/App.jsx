@@ -1,7 +1,7 @@
 // src/App.jsx
 
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import UsersPage from './pages/UsersPage';
 import ProductsPage from './pages/ProductsPage';
@@ -17,52 +17,34 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import SidebarLayout from './components/SidebarLayout';
 import PrivateRoute from './routes/PrivateRoute';
-import TopNav from './components/TopNav';
-import PublicRoute from './routes/PublicRoute'; // ✅ Only show when NOT logged in
-
-const LayoutWithTopNav = ({ children }) => {
-  const location = useLocation();
-  const isSidebarPage = [
-    '/users', '/products', '/orders', '/cart', '/payments',
-    '/inventory', '/notifications', '/reviews', '/discounts', '/search',
-  ].some(path => location.pathname.startsWith(path));
-
-  return (
-    <>
-      {!isSidebarPage && <TopNav />} {/* ✅ Show only when not inside sidebar layout */}
-      {children}
-    </>
-  );
-};
+import PublicRoute from './routes/PublicRoute';
 
 const App = () => {
   return (
     <Router>
-      <LayoutWithTopNav>
-        <Routes>
-          {/* Public routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-          <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+      <Routes>
+        {/* ✅ Public Routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+        <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
 
-          {/* Private + sidebar layout routes */}
-          <Route element={<PrivateRoute><SidebarLayout /></PrivateRoute>}>
-            <Route path="/users" element={<UsersPage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/orders" element={<OrdersPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/payments" element={<PaymentsPage />} />
-            <Route path="/inventory" element={<InventoryPage />} />
-            <Route path="/notifications" element={<NotificationsPage />} />
-            <Route path="/reviews" element={<ReviewsPage />} />
-            <Route path="/discounts" element={<DiscountsPage />} />
-            <Route path="/search" element={<SearchPage />} />
-          </Route>
+        {/* ✅ Private Routes with Sidebar + TopNav */}
+        <Route element={<PrivateRoute><SidebarLayout /></PrivateRoute>}>
+          <Route path="/users" element={<UsersPage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/payments" element={<PaymentsPage />} />
+          <Route path="/inventory" element={<InventoryPage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/reviews" element={<ReviewsPage />} />
+          <Route path="/discounts" element={<DiscountsPage />} />
+          <Route path="/search" element={<SearchPage />} />
+        </Route>
 
-          {/* Default redirect */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </LayoutWithTopNav>
+        {/* ✅ Fallback route */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
     </Router>
   );
 };

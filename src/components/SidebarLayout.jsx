@@ -3,8 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import TopNav from './TopNav';
 
 const services = [
+  { label: 'Home', path: '/' },
   { label: 'Users', path: '/users' },
   { label: 'Products', path: '/products' },
   { label: 'Orders', path: '/orders' },
@@ -25,7 +27,6 @@ const SidebarLayout = () => {
   const { logout } = useAuth();
 
   const toggleSidebar = () => setIsOpen(!isOpen);
-
   const handleResize = () => setWindowWidth(window.innerWidth);
 
   useEffect(() => {
@@ -40,92 +41,98 @@ const SidebarLayout = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', fontFamily: 'Arial, sans-serif', display: 'flex' }}>
-      {/* Sidebar */}
-      <div
-        style={{
-          width: isOpen ? '220px' : '0',
-          overflow: 'hidden',
-          transition: 'width 0.3s ease',
-          background: '#1e1e2f',
-          color: '#fff',
-          paddingTop: '20px',
-          position: 'fixed',
-          top: '60px',
-          left: 0,
-          height: '100%',
-          zIndex: 1000,
-        }}
-      >
-        <h2 style={{ color: '#61dafb', marginLeft: '20px' }}>Dashboard</h2>
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '20px' }}>
-          {services.map((svc, index) => {
-            const isActive = location.pathname === svc.path;
-            return (
-              <Link
-                key={index}
-                to={svc.path}
-                onClick={() => windowWidth < 768 && setIsOpen(false)}
-                style={{
-                  color: isActive ? '#61dafb' : '#ccc',
-                  backgroundColor: isActive ? '#2d2d3a' : 'transparent',
-                  padding: '10px 14px',
-                  textDecoration: 'none',
-                  borderRadius: '6px',
-                }}
-              >
-                {svc.label}
-              </Link>
-            );
-          })}
+    <div style={{ minHeight: '100vh', fontFamily: 'Arial, sans-serif' }}>
+      {/* ✅ Top Navigation always shown */}
+      <TopNav />
 
-          <button
-            onClick={handleLogout}
-            style={{
-              marginTop: '30px',
-              backgroundColor: '#ff4d4f',
-              color: '#fff',
-              padding: '10px 14px',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-            }}
-          >
-            Logout
-          </button>
-        </nav>
-      </div>
+      {/* Layout wrapper */}
+      <div style={{ display: 'flex' }}>
+        {/* Sidebar */}
+        <div
+          style={{
+            width: isOpen ? '220px' : '0',
+            overflow: 'hidden',
+            transition: 'width 0.3s ease',
+            background: '#1e1e2f',
+            color: '#fff',
+            paddingTop: '20px',
+            position: 'fixed',
+            top: '60px',
+            left: 0,
+            height: '100%',
+            zIndex: 1000,
+          }}
+        >
+          <h2 style={{ color: '#61dafb', marginLeft: '20px' }}>Dashboard</h2>
+          <nav style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '20px' }}>
+            {services.map((svc, index) => {
+              const isActive = location.pathname === svc.path;
+              return (
+                <Link
+                  key={index}
+                  to={svc.path}
+                  onClick={() => windowWidth < 768 && setIsOpen(false)}
+                  style={{
+                    color: isActive ? '#61dafb' : '#ccc',
+                    backgroundColor: isActive ? '#2d2d3a' : 'transparent',
+                    padding: '10px 14px',
+                    textDecoration: 'none',
+                    borderRadius: '6px',
+                  }}
+                >
+                  {svc.label}
+                </Link>
+              );
+            })}
 
-      {/* ☰ Toggle Button */}
-      <button
-        onClick={toggleSidebar}
-        style={{
-          position: 'fixed',
-          top: 70,
-          left: isOpen ? 230 : 10,
-          background: '#1e1e2f',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '4px',
-          padding: '8px 12px',
-          zIndex: 1100,
-        }}
-      >
-        ☰
-      </button>
+            <button
+              onClick={handleLogout}
+              style={{
+                marginTop: '30px',
+                backgroundColor: '#ff4d4f',
+                color: '#fff',
+                padding: '10px 14px',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+              }}
+            >
+              Logout
+            </button>
+          </nav>
+        </div>
 
-      {/* Main Content */}
-      <div
-        style={{
-          flex: 1,
-          marginLeft: isOpen ? '220px' : '0',
-          padding: '30px',
-          paddingTop: '80px',
-          background: '#f9f9f9',
-          width: '100%',
-        }}
-      >
-        <Outlet />
+        {/* ☰ Toggle Button */}
+        <button
+          onClick={toggleSidebar}
+          style={{
+            position: 'fixed',
+            top: 70,
+            left: isOpen ? 230 : 10,
+            background: '#1e1e2f',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '4px',
+            padding: '8px 12px',
+            zIndex: 1100,
+          }}
+        >
+          ☰
+        </button>
+
+        {/* Main Content */}
+        <div
+          style={{
+            flex: 1,
+            marginLeft: isOpen ? '220px' : '0',
+            padding: '30px',
+            paddingTop: '80px',
+            background: '#f9f9f9',
+            width: '100%',
+          }}
+        >
+          <Outlet />
+        </div>
       </div>
     </div>
   );
