@@ -53,4 +53,18 @@ const App = () => {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/payments" element={<PaymentsPage />} />
             <Route path="/inventory" element={<InventoryPage />} />
-            <Route pat
+            <Route path="/notifications" element={<NotificationsPage />} />
+            <Route path="/reviews" element={<ReviewsPage />} />
+            <Route path="/discounts" element={<DiscountsPage />} />
+            <Route path="/search" element={<SearchPage />} />
+          </Route>
+
+          {/* Default redirect */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </LayoutWithTopNav>
+    </Router>
+  );
+};
+
+export default App;
